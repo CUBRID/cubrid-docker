@@ -1,0 +1,20 @@
+version: '2'
+services:
+  cubmaster:
+    extends:
+      file: ha-common-services.yml
+      service: cubmaster
+    environment:
+      - CUBRID_COMPONENTS=HA
+      - CUBRID_DB=hadb
+
+  cubslave:
+    depends_on:
+      - cubmaster
+    extends:
+      file: ha-common-services.yml
+      service: cubslave
+    environment:
+      - CUBRID_COMPONENTS=HA
+      - CUBRID_DB=hadb
+

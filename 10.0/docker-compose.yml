@@ -1,0 +1,25 @@
+version: '2'
+services:
+  cubbroker:
+    container_name: cubbroker
+    build: .
+    depends_on:
+      - cubserver
+    environment:
+      - CUBRID_COMPONENTS=BROKER
+      - CUBRID_DB_HOST=cubserver
+      - CUBRID_DATABASE=cdb
+    ports:
+      - "33000:33000"
+    links:
+      - cubserver
+  cubserver:
+    container_name: cubserver
+    build: .
+    environment:
+      - CUBRID_COMPONENTS=SERVER
+      - CUBRID_DATABASE=cdb
+    volumes:
+      - data:/var/lib/cubrid
+volumes:
+  data: {}

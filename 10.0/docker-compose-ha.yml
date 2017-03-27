@@ -1,0 +1,40 @@
+version: '2'
+services:
+  cubhabroker:
+    depends_on:
+      - cubhamaster
+      - cubhaslave
+    extends:
+      file: ha-common-services.yml
+      service: cubbroker
+    environment:
+      - CUBRID_DB=hadb
+    ports:
+      - "33000:33000"
+
+  cubhamaster:
+    build: .
+    extends:
+      file: ha-common-services.yml
+      service: cubmaster
+    environment:
+      - CUBRID_DB=hadb
+    volumes:
+      - data_master:/var/lib/cubrid
+
+  cubhaslave:
+    build: .
+    depends_on:
+      - cubhamaster
+    extends:
+      file: ha-common-services.yml
+      service: cubslave
+    environment:
+      - CUBRID_DB=hadb
+    volumes:
+      - data_slave:/var/lib/cubrid
+
+volumes:
+  data_master: {}
+  data_slave: {}
+

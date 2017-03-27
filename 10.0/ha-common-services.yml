@@ -1,0 +1,29 @@
+version: '2'
+services:
+  cubmaster:
+    build: .
+    hostname: cubmaster
+    environment:
+      - CUBRID_COMPONENTS=MASTER
+      - CUBRID_DB_HOST=cubmaster:cubslave
+    networks:
+      default:
+        aliases:
+          - cubmaster
+
+  cubslave:
+    build: .
+    hostname: cubslave
+    environment:
+      - CUBRID_COMPONENTS=SLAVE
+      - CUBRID_DB_HOST=cubmaster:cubslave
+    networks:
+      default:
+        aliases:
+          - cubslave
+
+  cubbroker:
+    build: .
+    environment:
+      - CUBRID_COMPONENTS=BROKER
+      - CUBRID_DB_HOST=cubmaster:cubslave
