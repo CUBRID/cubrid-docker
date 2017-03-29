@@ -28,7 +28,7 @@ ENV PATH $CUBRID/bin:$PATH
 ENV LD_LIBRARY_PATH=$CUBRID/lib
 
 RUN set -x \
-	&& wget -O cubrid.tar.gz ftp://ftp.cubrid.org/CUBRID_Engine/nightly/CUBRID-$CUBRID_VERSION-Linux.x86_64.tar.gz \
+	&& wget -O cubrid.tar.gz ftp://ftp.cubrid.org/CUBRID_Engine/nightly/develop/CUBRID-$CUBRID_VERSION-Linux.x86_64.tar.gz \
 	&& tar -xzf cubrid.tar.gz -C /home/cubrid && rm cubrid.tar.gz \
 	&& mkdir -p $CUBRID_DATABASES \
 	&& chown -R cubrid:cubrid $CUBRID $CUBRID_DATABASES \
