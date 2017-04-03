@@ -1,0 +1,53 @@
+#
+# Deploy 1 Master, 1 Slave and 1 Broker for CUBRID to Docker Swarm nodes.
+#
+# `STACK_NAME` environment variable must be set to deplay.
+#   ex) export STACK_NAME=ha && docker stack deploy -c <This YML file> $STACK_NAME
+#
+# Docker version 1.13 or higher is required.
+
+version: '3'
+
+services:
+  cubmaster:
+    image: cubrid/cubrid:develop
+    hostname: ${STACK_NAME}_cubmaster
+    environment:
+      - CUBRID_COMPONENTS=MASTER
+      - CUBRID_DB=hadb
+      - CUBRID_DB_HOST=${STACK_NAME}_cubmaster:${STACK_NAME}_cubslave
+    healthcheck:
+      test: gosu cubrid bash -c "cubrid changemode $$CUBRID_DB@localhost"
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      labels:
+        org.cubrid.description: "Example for CUBRID HA"
+
+  cubslave:
+    depends_on:
+      - cubmaster
+    image: cubrid/cubrid:develop
+    hostname: ${STACK_NAME}_cubslave
+    environment:
+      - CUBRID_COMPONENTS=SLAVE
+      - CUBRID_DB=hadb
+      - CUBRID_DB_HOST=${STACK_NAME}_cubmaster:${STACK_NAME}_cubslave
+    healthcheck:
+      test: gosu cubrid bash -c "cubrid changemode $$CUBRID_DB@localhost"
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+
+  cubbroker:
+    depends_on:
+      - cubmaster
+      - cubslave
+    image: cubrid/cubrid:develop
+    environment:
+      - CUBRID_COMPONENTS=BROKER
+      - CUBRID_DB=hadb
+      - CUBRID_DB_HOST=${STACK_NAME}_cubmaster:${STACK_NAME}_cubslave
+    ports:
+      - "33000:33000"
