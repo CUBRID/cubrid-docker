@@ -1,4 +1,4 @@
-FROM centos
+FROM centos:7
 
 RUN groupadd -r cubrid && useradd -r -g cubrid -d /home/cubrid -m cubrid
 
@@ -29,7 +29,7 @@ ENV PATH $CUBRID/bin:$PATH
 ENV LD_LIBRARY_PATH=$CUBRID/lib
 
 RUN set -x \
-	&& wget -O cubrid.tar.gz ftp://ftp.cubrid.org/CUBRID_Engine/10.0/CUBRID-$CUBRID_VERSION-linux.x86_64.tar.gz \
+	&& wget -O cubrid.tar.gz http://ftp.cubrid.org/CUBRID_Engine/10.0/CUBRID-$CUBRID_VERSION-linux.x86_64.tar.gz \
 	&& echo "$CUBRID_MD5  cubrid.tar.gz" | md5sum -c - \
 	&& tar -xzf cubrid.tar.gz -C /home/cubrid && rm cubrid.tar.gz \
 	&& mkdir -p $CUBRID_DATABASES \
