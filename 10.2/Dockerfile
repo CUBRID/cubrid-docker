@@ -17,7 +17,7 @@ RUN set -x \
 	&& gosu nobody true \
 	&& yum -y remove dpkg 
 
-ENV CUBRID_VERSION 10.1-latest
+ENV CUBRID_VERSION 10.2-latest
 ENV CUBRID /home/cubrid/CUBRID
 ENV CUBRID_DATABASES /var/lib/cubrid
 ENV CUBRID_DB cubdb
@@ -28,7 +28,7 @@ ENV PATH $CUBRID/bin:$PATH
 ENV LD_LIBRARY_PATH=$CUBRID/lib
 
 RUN set -x \
-	&& wget -O cubrid.tar.gz http://ftp.cubrid.org/CUBRID_Engine/10.1/CUBRID-$CUBRID_VERSION-Linux.x86_64.tar.gz \
+	&& wget -O cubrid.tar.gz http://ftp.cubrid.org/CUBRID_Engine/10.2/CUBRID-$CUBRID_VERSION-Linux.x86_64.tar.gz \
 	&& tar -xzf cubrid.tar.gz -C /home/cubrid && rm cubrid.tar.gz \
 	&& mkdir -p $CUBRID_DATABASES \
 	&& chown -R cubrid:cubrid $CUBRID $CUBRID_DATABASES \
