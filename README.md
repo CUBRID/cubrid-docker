@@ -1,6 +1,6 @@
 # How to Use the CUBRID Images
-## Build a Image for CUBRID
-Build a image for CUBRID as follows:
+## Build an Image for CUBRID
+Build an image for CUBRID as follows:
 
     docker build -t cubrid:tag tag
 where `tag` is the tag specifying the CUBRID version you want.
@@ -35,7 +35,7 @@ Start Broker and Server instance as follows:
 where `project-name` is the name you want to assign to your project and `tag` is the tag specifying the CUBRID version you want.
 
 ## Start CUBRID HA in Multiple Containers
-### Start CUBRID HA Components (Master DB and SLave DB Server)
+### Start CUBRID HA Components (Master DB and Slave DB Server)
 Create a isolated network for HA
 
     docker network create --driver bridge cubrid_ha_net
@@ -53,7 +53,7 @@ where `master-container-name` or `slave-container-name` is the name you want to 
 The following command runs a cubrid command inside an existing master container instance:
 
     docker exec -it master-container-name gosu cubrid cubrid hb status
-### Start CUBRID HA Components (Broker, Master DB and SLave DB Server) Using Docker Compose
+### Start CUBRID HA Components (Broker, Master DB and Slave DB Server) Using Docker Compose
 Start HA instances as follows:
 
     docker-compose -p ha-project-name -f tag/docker-compose-ha.yml up
@@ -63,7 +63,7 @@ Stop HA instances remove related containers, networks and volumes as follows:
 
     docker-compose -p ha-project-name -f tag/docker-compose-ha.yml down -v
 
-### Start CUBRID HA Components (Master DB with Broker and SLave DB Server with Broker) Using Docker Compose
+### Start CUBRID HA Components (Master DB with Broker and Slave DB Server with Broker) Using Docker Compose
 Start HA instances as follows:
 
     docker-compose -p ha2-project-name -f tag/docker-compose-ha2.yml up
@@ -71,8 +71,7 @@ where `ha2-project-name` is the name you want to assign to your project and `tag
 
 # Supported Docker Versions
 - Docker version 1.10 or higher is required.
-- Docker Compoase version 1.11.2 or higher is required.
+- Docker Compose version 1.11.2 or higher is required.
 
 The compose file used in above examples is written in Compose File Format 2.0 and it requires Docker Engine version 1.10+.
 For more information for Docker Engine and other Docker products, please visit https://github.com/docker.
-
