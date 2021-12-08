@@ -81,7 +81,10 @@ if [ $# -eq 0 ]; then
 			;;
 	esac
 
-	exec gosu cubrid /usr/bin/tail -F /dev/null
+	gosu cubrid cubrid_rel
+
+	gosu cubrid /usr/bin/tail -F /dev/null
 else
 	exec "$@"
 fi
+
