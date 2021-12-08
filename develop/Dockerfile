@@ -2,7 +2,7 @@ FROM centos:7
 
 RUN groupadd -r cubrid && useradd -r -g cubrid -d /home/cubrid -m cubrid
 
-ENV GOSU_VERSION 1.10
+ENV GOSU_VERSION 1.13
 RUN set -x \
 	&& yum -y install epel-release \
 	&& yum -y install wget dpkg \
@@ -10,12 +10,12 @@ RUN set -x \
 	&& wget -O /usr/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch" \
 	&& wget -O /tmp/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc" \
 	&& export GNUPGHOME="$(mktemp -d)" \
-	&& gpg --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
+	&& gpg --keyserver hkps://keys.openpgp.org --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
 	&& gpg --batch --verify /tmp/gosu.asc /usr/bin/gosu \
 	&& rm -r "$GNUPGHOME" /tmp/gosu.asc \
 	&& chmod +x /usr/bin/gosu \
 	&& gosu nobody true \
-	&& yum -y remove dpkg 
+	&& yum -y remove dpkg
 
 ENV CUBRID_VERSION latest
 ENV CUBRID /home/cubrid/CUBRID
