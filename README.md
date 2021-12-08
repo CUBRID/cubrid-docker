@@ -15,7 +15,7 @@ where `container-name` is the name you want to assign to your container, `dbname
 ### Connect to CUBRID from the CUBRID Command Line Client (csql)
 The following command runs a csql command line client inside an existing CUBRID container instance:
 
-    docker exec -it container-name csql dbname
+    docker exec -it --user cubrid container-name csql dbname
 
 ## Start CUBRID Components in Multiple Containers
 ### Start Containers for Broker and DB Server

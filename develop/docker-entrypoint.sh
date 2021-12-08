@@ -83,7 +83,8 @@ if [ $# -eq 0 ]; then
 
 	gosu cubrid cubrid_rel
 
-	exec gosu cubrid /usr/bin/tail -F /dev/null
+	gosu cubrid /usr/bin/tail -F /dev/null
 else
 	exec "$@"
 fi
+
