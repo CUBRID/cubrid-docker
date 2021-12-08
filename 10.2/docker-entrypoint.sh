@@ -50,13 +50,6 @@ init_ha () {
 	echo "ha_copy_log_max_archives=1" >> $CUBRID/conf/cubrid_ha.conf
 }
 
-echo "export CUBRID=/home/cubrid/CUBRID" >> /home/cubrid/.bash_profile
-echo "export CUBRID_DATABASES=/var/lib/cubrid" >> /home/cubrid/.bash_profile
-echo "export PATH=$CUBRID/bin:$PATH" >> /home/cubrid/.bash_profile
-echo "export LD_LIBRARY_PATH=$CUBRID/lib" >> /home/cubrid/.bash_profile
-echo "export SHLIB_PATH=$LD_LIBRARY_PATH" >> /home/cubrid/.bash_profile
-echo "export LIBPATH=$LD_LIBRARY_PATH" >> /home/cubrid/.bash_profile
-
 if [ $# -eq 0 ]; then
 	case "$CUBRID_COMPONENTS" in
 		BROKER)
@@ -92,7 +85,6 @@ if [ $# -eq 0 ]; then
 
 	gosu cubrid /usr/bin/tail -F /dev/null
 else
-	echo "$@"
+	exec "$@"
 fi
 
-chown -R cubrid:cubrid $CUBRID $CUBRID_DATABASES
