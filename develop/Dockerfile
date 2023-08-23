@@ -1,6 +1,7 @@
 FROM centos:7
 
 RUN groupadd -r cubrid && useradd -r -g cubrid -d /home/cubrid -m cubrid
+RUN chmod 777 -R /tmp
 
 ENV GOSU_VERSION 1.13
 RUN set -x \
