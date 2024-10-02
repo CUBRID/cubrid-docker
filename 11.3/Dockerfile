@@ -35,8 +35,6 @@ RUN set -x \
 	&& tar -xzf cubrid.tar.gz -C /home/cubrid && rm cubrid.tar.gz \
 	&& mkdir -p $CUBRID_DATABASES \
 	&& chown -R cubrid:cubrid $CUBRID $CUBRID_DATABASES \
-#	&& cp $CUBRID/cci/include/* $CUBRID/include \
-#	&& cp $CUBRID/cci/lib/* $CUBRID/lib \
 	&& yum -y remove wget \
 	&& yum clean all
 
