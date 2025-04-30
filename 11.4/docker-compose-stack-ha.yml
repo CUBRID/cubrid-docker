@@ -10,7 +10,7 @@ version: '3'
 
 services:
   cubmaster:
-    image: cubrid/cubrid:11.3
+    image: cubrid/cubrid:11.4
     hostname: ${STACK_NAME}_cubmaster
     environment:
       - CUBRID_COMPONENTS=MASTER
@@ -28,7 +28,7 @@ services:
   cubslave:
     depends_on:
       - cubmaster
-    image: cubrid/cubrid:11.3
+    image: cubrid/cubrid:11.4
     hostname: ${STACK_NAME}_cubslave
     environment:
       - CUBRID_COMPONENTS=SLAVE
@@ -44,7 +44,7 @@ services:
     depends_on:
       - cubmaster
       - cubslave
-    image: cubrid/cubrid:11.3
+    image: cubrid/cubrid:11.4
     environment:
       - CUBRID_COMPONENTS=BROKER
       - CUBRID_DB=hadb
