@@ -72,6 +72,17 @@ Start HA instances as follows:
     docker-compose -p ha2-project-name -f tag/docker-compose-ha2.yml up
 where `ha2-project-name` is the name you want to assign to your project and `tag` is the tag specifying the CUBRID version you want.
 
+### Operator-Specific Files
+The CUBRID Docker image includes two special files that are exclusively used by the CUBRID Operator in Kubernetes environments:
+#### backupdb.sh
+- **Purpose:** Used by the BackupDB Resource to execute backupdb commands
+- **Usage:** This script is automatically invoked by the CUBRID Operator when performing database backup operations
+- **Reference:** For detailed information, see the [CUBRID Operator API Reference - BackupDB](https://github.com/CUBRID/cubrid-operator/blob/operator/docs/api-reference.md#backupdb)
+
+#### operator_conf.sh
+- **Purpose:** Used internally by the Operator to configure cubrid.conf and cubrid_ha.conf files
+- **Usage:** This script handles the setup and configuration of CUBRID configuration files within the Operator environment
+
 # Supported Docker Versions
 - Docker version 1.10 or higher is required.
 - Docker Compose version 1.11.2 or higher is required.
