@@ -11,16 +11,15 @@ ENV GOSU_VERSION="1.13" \
     VERSION_PATH="11.4_latest" \
     CUBRID_USER_PATH="/home/cubrid" \
     CUBRID="/home/cubrid/CUBRID" \
-    CUBRID_DATABASES="/var/lib/cubrid" \
+    CUBRID_DATABASES="/home/cubrid/CUBRID/databases" \
+    CUBRID_BACKUPDB="/home/cubrid/CUBRID/backupdb" \
     CUBRID_DB="cubdb" \
     CUBRID_VOLUME_SIZE="100M" \
     CUBRID_LOCALE="en_US" \
     CUBRID_COMPONENTS="ALL" \
     PATH="/home/cubrid/CUBRID/bin:$PATH" \
-    LD_LIBRARY_PATH="/home/cubrid/CUBRID/lib" \
-    # for k8s environment
-    K8S_CUBRID_DATABASES="/home/cubrid/CUBRID/databases" \
-    CUBRID_BACKUPDB="/home/cubrid/CUBRID/backupdb"
+    LD_LIBRARY_PATH="/home/cubrid/CUBRID/lib" 
+    
 
 # Setup repositories and install base packages
 RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* && \
@@ -82,11 +81,8 @@ RUN echo "# CUBRID System Configuration" >> /etc/sysctl.conf && \
 RUN wget -O cubrid.tar.gz "http://ftp.cubrid.org/CUBRID_Engine/${VERSION_PATH}/CUBRID-${CUBRID_VERSION}-Linux.x86_64.tar.gz" && \
     tar -xzf cubrid.tar.gz -C /home/cubrid && \
     rm cubrid.tar.gz && \
-    mkdir -p ${CUBRID_DATABASES} && \
-    chown -R cubrid:cubrid ${CUBRID} ${CUBRID_DATABASES} && \
-    # for k8s environment
-    mkdir -p ${K8S_CUBRID_DATABASES} ${CUBRID_BACKUPDB} && \
-    chown -R cubrid:cubrid ${K8S_CUBRID_DATABASES} ${CUBRID_BACKUPDB} && \
+    mkdir -p ${CUBRID_DATABASES} ${CUBRID_BACKUPDB} && \
+    chown -R cubrid:cubrid ${CUBRID} ${CUBRID_DATABASES} ${CUBRID_BACKUPDB} && \
     chmod -R 755 /home/cubrid/CUBRID && \
     yum clean all && \
     rm -rf /var/cache/yum/* /tmp/* /var/tmp/*
