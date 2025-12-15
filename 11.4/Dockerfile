@@ -1,9 +1,6 @@
-FROM centos:7
+FROM rockylinux:8
 
-# Create user and group
-RUN groupadd -r -g 1000 cubrid && \
-    useradd -r -u 1000 -g cubrid -d /home/cubrid -m cubrid && \
-    chmod 777 -R /tmp
+
 
 # Set environment variables
 ENV GOSU_VERSION="1.13" \
@@ -22,14 +19,17 @@ ENV GOSU_VERSION="1.13" \
     
 
 # Setup repositories and install base packages
-RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* && \
-    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-* && \
-    yum -y update && \
-    yum -y install epel-release && \
-    yum -y install wget unzip zip htop lsof tzdata \
+RUN dnf -y update && \
+    dnf -y install epel-release && \
+    dnf -y install wget unzip zip htop lsof tzdata tar gzip \
     net-tools iproute telnet bind-utils nmap traceroute socat tcpdump \
-    httpie rsync openssh-clients openssh less nc && \ 
-    yum clean all
+    httpie rsync openssh-clients openssh less nc shadow-utils
+RUN dnf clean all
+
+# Create user and group
+RUN groupadd -r -g 1000 cubrid && \
+    useradd -r -u 1000 -g cubrid -d /home/cubrid -m cubrid && \
+    chmod 777 -R /tmp
 
 # Install gosu
 RUN wget -O /usr/bin/gosu "https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-amd64" && \
@@ -83,9 +83,11 @@ RUN wget -O cubrid.tar.gz "http://ftp.cubrid.org/CUBRID_Engine/${VERSION_PATH}/C
     rm cubrid.tar.gz && \
     mkdir -p ${CUBRID_DATABASES} ${CUBRID_BACKUPDB} && \
     chown -R cubrid:cubrid ${CUBRID} ${CUBRID_DATABASES} ${CUBRID_BACKUPDB} && \
-    chmod -R 755 /home/cubrid/CUBRID && \
-    yum clean all && \
-    rm -rf /var/cache/yum/* /tmp/* /var/tmp/*
+    chmod -R 755 /home/cubrid/CUBRID
+RUN dnf clean all
+
+# Clean up cache
+RUN rm -rf /var/cache/dnf/* /tmp/* /var/tmp/*
 
 # Copy scripts and set permissions
 COPY operator_conf.sh backupdb.sh ${CUBRID}/share/scripts/
