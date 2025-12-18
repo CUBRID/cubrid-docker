@@ -3,7 +3,7 @@ FROM rockylinux:8
 
 
 # Set environment variables
-ENV GOSU_VERSION="1.13" \
+ENV GOSU_VERSION="1.19" \
     CUBRID_VERSION="11.4-latest" \
     VERSION_PATH="11.4_latest" \
     CUBRID_USER_PATH="/home/cubrid" \

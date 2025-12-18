@@ -1,6 +1,6 @@
 FROM rockylinux:8
 
-ENV GOSU_VERSION 1.13
+ENV GOSU_VERSION 1.19
 RUN set -x \
 	&& dnf -y install epel-release ncurses-compat-libs \
 	&& dnf -y install wget dpkg \
