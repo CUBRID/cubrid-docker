@@ -98,7 +98,7 @@ init_db () {
 		&& gosu cubrid cubrid createdb --db-volume-size=$CUBRID_VOLUME_SIZE --server-name=$CUBRID_SERVER_NAME $CUBRID_DB $CUBRID_LOCALE
 
 	if [ "$CUBRID_USER" -a "$CUBRID_USER" != "dba" -a "$CUBRID_USER" != "public" ]; then
-		csql -u dba -S $CUBRID_DB -c "CREATE USER $CUBRID_USER PASSWORD '$CUBRID_PASSWORD';"
+		gosu cubrid csql -u dba -S $CUBRID_DB -c "CREATE USER $CUBRID_USER PASSWORD '$CUBRID_PASSWORD';"
 	fi
 }
 
